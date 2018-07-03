@@ -22,8 +22,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
        self.router = oj.Router.rootInstance;
        self.router.configure({
          'newData': {label: 'New Data', isDefault: true},
-         'bar': {label: 'Bar'},
-         'customers': {label: 'Customers'},
+         'scatterChart': {label: ' Scatter Chart'},
+         'boxPlotChart': {label: 'Box Plot Chart'},
          'about': {label: 'About'}
        });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
@@ -52,9 +52,9 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
       var navData = [
       {name: 'New Data', id: 'newData',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
-      {name: 'Bar', id: 'bar',
+      {name: 'Scatter Chart', id: 'scatterChart',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
-      {name: 'Customers', id: 'customers',
+      {name: 'Box Plot Chart ', id: 'boxPlotChart',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
       {name: 'About', id: 'about',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
