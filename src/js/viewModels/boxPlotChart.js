@@ -6,8 +6,17 @@
 /*
  * Your customer ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojbutton', 'ojs/ojchart', 'ojs/ojtoolbar'],
- function(oj, ko, $) {
+define([
+  'ojs/ojcore',
+  'knockout',
+  'jquery',
+  'ojs/ojknockout',
+  'ojs/ojbutton',
+  'ojs/ojchart',
+  'ojs/ojtoolbar',
+  'ojs/ojinputtext', 
+  'ojs/ojlabel'
+], function (oj, ko, $) {
   
   function ChartModel() {
     var self = this;
@@ -34,6 +43,53 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojknockout', 'ojs/ojbutton', 'o
     
     /* toggle buttons */
     self.orientationValue = ko.observable('vertical');
+
+    // var scatterSeries = [{name : "Series 1", items : [{x:15, y:15}, {x:25, y:43}, {x:25, y:25}]},
+    // {name : "Series 2", items : [{x:25, y:15}, {x:55, y:45}, {x:57, y:47}]},
+    // {name : "Series 3", items : [{x:17, y:36}, {x:32, y:52}, {x:26, y:28}]},
+    // {name : "Series 4", items : [{x:38, y:22}, {x:43, y:43}, {x:58, y:36}]}];
+
+    // var scatterGroups = ["Group A", "Group B", "Group C"];
+
+
+    self.scatterSeriesValue = ko.observableArray([]);
+    // self.scatterGroupsValue = ko.observableArray(scatterGroups);
+
+    self.value = ko.observable("");
+    self.getSeriesData = function(data) {
+      var linesData = data.split("\\n")
+      output = []
+      linesData.forEach(function(currentValue, currentIndex) {
+          var lineData = currentValue.split("\\t")
+          if(currentIndex === 0) {
+            lineData.forEach(function(value, index) {
+              var seriesIndex = Math.trunc(index/2)
+              if(!output[seriesIndex]) output[seriesIndex] = {}
+              output[seriesIndex].items = []
+              output[seriesIndex].name = (output[seriesIndex].name)? `${output[seriesIndex].name} ${value}`: value
+            });
+          } else {
+            var point = {}
+            lineData.forEach(function(value, index) {
+              var seriesIndex = Math.trunc(index/2)
+              if(index%2 === 0) {
+                point = {}
+                point.x = (value) ? value : 0
+              } else {
+                point.y = (value) ? value : 0
+                output[seriesIndex].items.push(point)
+              }
+            });
+          }
+      })
+      console.log(output)
+      return output
+    }
+    self.buttonClick = function(event){
+        self.scatterSeriesValue.removeAll();
+        self.scatterSeriesValue.push(...self.getSeriesData(self.value()));
+        return true;
+    }
 }
 
 var chartModel = new ChartModel();
